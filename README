@@ -17,10 +17,6 @@ I came up with the 6 and 7 card evaluators myself, using a very similar card
 representation and applying some of the same ideas with prime numbers. The
 idea was to strike a balance between lookup table size and speed.
 
-Documentation is sparse at the moment, sorry about that, and obviously I did
-not really bother to package it or clean it up. I may or may not work on this
-in the future.
-
 Also, I haven't included the code I used to generate the lookup tables, but
 you should be able to do that with a simpler, slower algorithm. Maybe I'll
 add that later as well.
@@ -28,3 +24,7 @@ add that later as well.
 There is also a two-card ranking/percentile algorithm that is unrelated to
 the rest and may get cleaned up later. We used it at one point for some
 pre-flop evaluation. Credit to Zach Wissner-Gross for developing this.
+
+Documentation is sparse at the moment, sorry about that, and obviously I did
+not really bother to package it or clean it up. I may or may not work on this
+in the future. Basically, I made it, so why not release it?

@@ -18,7 +18,7 @@ class HandEvaluator:
     class Five:
         def card_to_binary(card):
             """
-            Convert the pokerbots.engine.game.Card representation to a binary
+            Convert the lookup_tables.Card representation to a binary
             representation for use in 5-card hand evaluation
             """
             # This is Cactus Kev's algorithm, reimplemented in Python since we can't
@@ -87,7 +87,7 @@ class HandEvaluator:
     class Six:
         def card_to_binary(card):
             """
-            Convert the pokerbots.engine.game.Card representation to a binary
+            Convert the lookup_tables.Card representation to a binary
             representation for use in 6-card hand evaluation
             """
             # This a variant on Cactus Kev's algorithm. We need to replace
@@ -211,7 +211,7 @@ class HandEvaluator:
     class Seven:
         def card_to_binary(card):
             """
-            Convert the pokerbots.engine.game.Card representation to a binary
+            Convert the lookup_tables.Card representation to a binary
             representation for use in 7-card hand evaluation
             """
             # Same as for 6 cards
