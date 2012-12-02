@@ -91,6 +91,10 @@ class LookupTables:
         ]
         preflop_count_sum = 663.0
         
+        # Table for suited 2-card hands
+        # The row corresponds to the lower of the two cards
+        # TODO: I think this should be a symmetric matrix
+        # to remove the sorting requirement
         suited_ranks_to_percentile = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -108,6 +112,10 @@ class LookupTables:
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.96832579185520362, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ]
+        
+        # Table for unsuited 2-card hands
+        # For some reason I actually bothered to make this one
+        # symmetric and not the other one
         unsuited_ranks_to_percentile = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
