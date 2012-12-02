@@ -10,7 +10,10 @@ class HandEvaluator:
             Using lookup table, return percentile of your hand with two cards
             """
             if hand[0].suit == hand[1].suit:
-                return LookupTables.Two.suited_ranks_to_percentile[hand[0].rank][hand[1].rank]
+                if hand[0].rank < hand[1].rank:
+                    return LookupTables.Two.suited_ranks_to_percentile[hand[0].rank][hand[1].rank]
+                else:
+                    return LookupTables.Two.suited_ranks_to_percentile[hand[1].rank][hand[0].rank]
             else:
                 return LookupTables.Two.unsuited_ranks_to_percentile[hand[0].rank][hand[1].rank]
         evaluate_percentile = staticmethod(evaluate_percentile)
