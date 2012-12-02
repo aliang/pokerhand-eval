@@ -1,3 +1,5 @@
+import re
+
 class Card:
     SUIT_TO_STRING = {
         1: "s",
@@ -22,6 +24,11 @@ class Card:
         14: "A"
     }
     
+    STRING_TO_SUIT = {v:k for k, v in SUIT_TO_STRING.items()}
+    STRING_TO_RANK = {v:k for k, v in RANK_TO_STRING.items()}
+    
+    REPR_RE = re.compile(r'\((.*?)\)')
+    
     def __init__(self, rank, suit):
         """Create a card. Rank is 2-14, representing 2-A,
         while suit is 1-4 representing spades, hearts, diamonds, clubs"""
@@ -36,3 +43,14 @@ class Card:
     
     def __hash__(self):
         return hash((self.rank, self.suit))
+    
+    @classmethod
+    def from_repr(cls, repr):
+        """Return a card instance from repr.
+        This is really dirty--it just matches between the parens.
+        It's meant for debugging."""
+        between_parens = re.search(cls.REPR_RE, repr).group(1)
+        rank = cls.STRING_TO_RANK[between_parens[0].upper()]
+        suit = cls.STRING_TO_SUIT[between_parens[1].lower()]
+        return Card(rank, suit)
+        
