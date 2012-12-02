@@ -3,12 +3,19 @@ from popcount import PopCount
 from itertools import combinations
 from operator import mul, __or__, __and__, __xor__
 
+class HandLengthException(Exception):
+    pass
+
 class HandEvaluator:
+    
     class Two:
         def evaluate_percentile(hand):
             """
             Using lookup table, return percentile of your hand with two cards
             """
+            if len(hand) != 2:
+                raise HandLengthException("Only 2-card hands are supported by the Two evaluator")
+            
             if hand[0].suit == hand[1].suit:
                 if hand[0].rank < hand[1].rank:
                     return LookupTables.Two.suited_ranks_to_percentile[hand[0].rank][hand[1].rank]
@@ -54,6 +61,9 @@ class HandEvaluator:
             """
             Return the rank of this 5-card hand amongst all 5-card hands.
             """
+            if len(hand) != 5:
+                raise HandLengthException("Only 5-card hands are supported by the Five evaluator")
+            
             # This implementation uses the binary representation from
             # card_to_binary
             card_to_binary = HandEvaluator.Five.card_to_binary_lookup
@@ -122,6 +132,9 @@ class HandEvaluator:
             Return the rank amongst all possible 5-card hands of any kind
             using the best 5-card hand from the given 6-card hand.
             """
+            if len(hand) != 6:
+                raise HandLengthException("Only 6-card hands are supported by the Six evaluator")
+            
             # bh stands for binary hand, map to that representation
             card_to_binary = HandEvaluator.Six.card_to_binary_lookup
             bh = map(card_to_binary, hand)
@@ -232,6 +245,9 @@ class HandEvaluator:
             Return the rank amongst all possible 5-card hands of any kind
             using the best 5-card hand from the given 6-card hand.
             """
+            if len(hand) != 7:
+                raise HandLengthException("Only 7-card hands are supported by the Seven evaluator")
+            
             # bh stands for binary hand, map to that representation
             card_to_binary = HandEvaluator.Seven.card_to_binary_lookup
             bh = map(card_to_binary, hand)
@@ -315,6 +331,10 @@ class HandEvaluator:
         Return the percentile of the best 5 card hand made from these
         cards, against an equivalent number of cards.
         """
+        hand_lengths = [2]
+        
+        if len(hand) not in hand_lengths:
+            raise HandLengthException("Only %s hole cards are supported" % ", ".join(map(str, hand_lengths)))
         
         cards = list(hand) + list(board)
         if len(cards) == 2:
@@ -327,14 +347,15 @@ class HandEvaluator:
             evaluator = HandEvaluator.Seven
         else:
             # wrong number of cards
-            return 0
+            raise HandLengthException("Only 2, 5, 6, 7 cards total are supported by evaluate_hand")
 
         # Default values in case we screw up
         rank = 7463
         percentile = 0.0
         
         rank = evaluator.evaluate_rank(cards)
-        possible_opponent_hands = list(combinations(LookupTables.deck - set(cards), 2))
+        
+        possible_opponent_hands = list(combinations(LookupTables.deck - set(cards), len(hand)))
         hands_beaten = 0
         for h in possible_opponent_hands:
             possible_opponent_rank = evaluator.evaluate_rank(list(h) + board)
