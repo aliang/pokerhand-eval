@@ -7,7 +7,7 @@ In pure python
 ## Introduction
 
 This is a pure python library to calculate the rank of the best poker hand
-out of 5, 6, or 7 cards. It does not run the board for your, or calculate
+out of 5, 6, or 7 cards. It does not run the board for you, or calculate
 winning percentage, EV, or anything like that. But if you give it two hands
 and the same board, you will be able to tell which hand wins.
 
