@@ -1,4 +1,10 @@
+# Poker Hand Evaluator
+
+In pure python
+
 27 January 2011, Alvin Liang
+
+## Introduction
 
 This is a pure python library to calculate the rank of the best poker hand
 out of 5, 6, or 7 cards. It does not run the board for your, or calculate
@@ -9,6 +15,19 @@ It is nowhere near as fast as pypoker-eval, but it works if you can't use C
 for some reason (the early stages of the first MIT pokerbot competition come
 to mind). The core algorithm is slower, and you obviously don't have
 the speed of C.
+
+## Quick Start
+
+````python
+from card import Card
+from hand_evaluator import HandEvaluator
+
+hole = [Card(2, 1), Card(2, 2)]
+board = []
+score = HandEvaluator.evaluate_hand(hole, board)
+````
+
+## Algorithm
 
 The algorithm for 5 cards is just a port of this algorithm:
 http://www.suffecool.net/poker/evaluator.html
@@ -28,3 +47,8 @@ pre-flop evaluation. Credit to Zach Wissner-Gross for developing this.
 Documentation is sparse at the moment, sorry about that, and obviously I did
 not really bother to package it or clean it up. I may or may not work on this
 in the future. Basically, I made it, so why not release it?
+
+## Contributors
+
+* Me! Go me!
+* arslr
