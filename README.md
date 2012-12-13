@@ -51,4 +51,5 @@ in the future. Basically, I made it, so why not release it?
 ## Contributors
 
 * Me! Go me!
+* Zach Wissner-Gross
 * arslr
