@@ -24,8 +24,8 @@ class Card:
         14: "A"
     }
     
-    STRING_TO_SUIT = {v:k for k, v in SUIT_TO_STRING.items()}
-    STRING_TO_RANK = {v:k for k, v in RANK_TO_STRING.items()}
+    STRING_TO_SUIT = dict([(v, k) for k, v in SUIT_TO_STRING.iteritems()])
+    STRING_TO_RANK = dict([(v, k) for k, v in RANK_TO_STRING.iteritems()])
     
     REPR_RE = re.compile(r'\((.*?)\)')
     
