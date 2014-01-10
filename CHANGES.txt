@@ -1,0 +1,23 @@
+Changes
+=======
+
+0.1.0 (2014-01-09)
+------------------
+
+- Package for pip installation (thanks Jim Kelly!)
+- Package is called pokereval (thanks Jim Kelly!)
+- Additional Card docs added (thanks Jim Kelly!)
+
+0.0.2 (2012-12-02)
+------------------
+
+- Fix bug in 2-card hand evaluator
+- Add quickstart (thanks arslr!)
+- Support Python 2.6 (thanks again arslr!)
+- Quick Start docs added (thanks again arslr!)
+
+0.0.1 (2011-01-27)
+------------------
+
+- Nothing changed yet; initial public release
+- We weren't even versioning at this point, ha
