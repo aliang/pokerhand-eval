@@ -44,8 +44,10 @@ The Card constructor accepts two arguments, rank, and suit.
 Algorithm
 ---------
 
-The algorithm for 5 cards is just a port of this algorithm:
-http://www.suffecool.net/poker/evaluator.html
+The algorithm for 5 cards is just a port of the algorithm that used to
+be at the following URL. (I purposely broke the link because it now hosts
+a malware site.)
+httx://www.suffecool.net/poker/evaluator.html
 
 I came up with the 6 and 7 card evaluators myself, using a very similar
 card representation and applying some of the same ideas with prime
