@@ -331,7 +331,7 @@ class HandEvaluator:
         Return the percentile of the best 5 card hand made from these
         cards, against an equivalent number of cards.
         """
-        hand_lengths = [2]
+        hand_lengths = [2, 5, 6, 7]
         
         if len(hand) not in hand_lengths:
             raise HandLengthException("Only %s hole cards are supported" % ", ".join(map(str, hand_lengths)))
