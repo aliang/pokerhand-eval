@@ -1,7 +1,8 @@
-from lookup_tables import LookupTables
-from popcount import PopCount
+from .lookup_tables import LookupTables
+from .popcount import PopCount
 from itertools import combinations
 from operator import mul, __or__, __and__, __xor__
+from functools import reduce
 
 class HandLengthException(Exception):
     pass
@@ -69,7 +70,7 @@ class HandEvaluator:
             card_to_binary = HandEvaluator.Five.card_to_binary_lookup
 
             # bh stands for binary hand
-            bh = map(card_to_binary, hand)
+            bh = list(map(card_to_binary, hand))
             has_flush = reduce(__and__, bh, 0xF000)
             # This is a unique number based on the ranks if your cards,
             # assuming your cards are all different
@@ -87,7 +88,7 @@ class HandEvaluator:
                     # We need a different lookup table with different keys
                     # Compute the unique product of primes, because we have a pair
                     # or trips, etc. Use the product to look up the rank.
-                    q = reduce(mul, map(lambda card: card & 0xFF, bh))
+                    q = reduce(mul, [card & 0xFF for card in bh])
                     # Here, use dict instead of sparse array (basically hashing)
                     # I didn't bother using "perfect hash", the python hashing
                     # shouldn't be terrible
@@ -137,13 +138,13 @@ class HandEvaluator:
             
             # bh stands for binary hand, map to that representation
             card_to_binary = HandEvaluator.Six.card_to_binary_lookup
-            bh = map(card_to_binary, hand)
+            bh = list(map(card_to_binary, hand))
         
             # We can determine if it's a flush using a lookup table.
             # Basically use prime number trick but map to bool instead of rank
             # Once you have a flush, there is no other higher hand you can make
             # except straight flush, so just need to determine the highest flush
-            flush_prime = reduce(mul, map(lambda card: (card >> 12) & 0xF, bh))
+            flush_prime = reduce(mul, [(card >> 12) & 0xF for card in bh])
             flush_suit = False
             if flush_prime in LookupTables.Six.prime_products_to_flush:
                 flush_suit = LookupTables.Six.prime_products_to_flush[flush_prime]
@@ -157,10 +158,7 @@ class HandEvaluator:
                 if even_xor == 0:
                     # There might be 0 or 1 cards in the wrong suit, so filter
                     # TODO: There might be a faster way?
-                    bits = reduce(__or__, map(
-                        lambda card: (card >> 16),
-                        filter(
-                            lambda card: (card >> 12) & 0xF == flush_suit, bh)))
+                    bits = reduce(__or__, [(card >> 16) for card in [card for card in bh if (card >> 12) & 0xF == flush_suit]])
                     return LookupTables.Six.flush_rank_bits_to_rank[bits]
                 else:
                     # you have a pair, one card in the flush suit,
@@ -197,14 +195,14 @@ class HandEvaluator:
             if even_xor == 0: # x-0
                 odd_popcount = PopCount.popcount(odd_xor)
                 if odd_popcount == 4: # 4-0
-                    prime_product = reduce(mul, map(lambda card: card & 0xFF, bh))
+                    prime_product = reduce(mul, [card & 0xFF for card in bh])
                     return LookupTables.Six.prime_products_to_rank[prime_product]
                 else: # 6-0, 2-0
                     return LookupTables.Six.odd_xors_to_rank[odd_xor]
             elif odd_xor == 0: # 0-x
                 even_popcount = PopCount.popcount(even_xor)
                 if even_popcount == 2: # 0-2
-                    prime_product = reduce(mul, map(lambda card: card & 0xFF, bh))
+                    prime_product = reduce(mul, [card & 0xFF for card in bh])
                     return LookupTables.Six.prime_products_to_rank[prime_product]
                 else: # 0-3
                     return LookupTables.Six.even_xors_to_rank[even_xor]
@@ -217,7 +215,7 @@ class HandEvaluator:
                     if even_popcount == 2: # 2-2
                         return LookupTables.Six.even_xors_to_odd_xors_to_rank[even_xor][odd_xor]
                     else: # 2-1
-                        prime_product = reduce(mul, map(lambda card: card & 0xFF, bh))
+                        prime_product = reduce(mul, [card & 0xFF for card in bh])
                         return LookupTables.Six.prime_products_to_rank[prime_product]
 
         card_to_binary = staticmethod(card_to_binary)
@@ -250,10 +248,10 @@ class HandEvaluator:
             
             # bh stands for binary hand, map to that representation
             card_to_binary = HandEvaluator.Seven.card_to_binary_lookup
-            bh = map(card_to_binary, hand)
+            bh = list(map(card_to_binary, hand))
         
             # Use a lookup table to determine if it's a flush as with 6 cards
-            flush_prime = reduce(mul, map(lambda card: (card >> 12) & 0xF, bh))
+            flush_prime = reduce(mul, [(card >> 12) & 0xF for card in bh])
             flush_suit = False
             if flush_prime in LookupTables.Seven.prime_products_to_flush:
                 flush_suit = LookupTables.Seven.prime_products_to_flush[flush_prime]
@@ -267,19 +265,13 @@ class HandEvaluator:
                 even_popcount = PopCount.popcount(even_xor)
                 if even_xor == 0:
                     # TODO: There might be a faster way?
-                    bits = reduce(__or__, map(
-                        lambda card: (card >> 16),
-                        filter(
-                            lambda card: (card >> 12) & 0xF == flush_suit, bh)))
+                    bits = reduce(__or__, [(card >> 16) for card in [card for card in bh if (card >> 12) & 0xF == flush_suit]])
                     return LookupTables.Seven.flush_rank_bits_to_rank[bits]
                 else:
                     if even_popcount == 2:
                         return LookupTables.Seven.flush_rank_bits_to_rank[odd_xor | even_xor]
                     else:
-                        bits = reduce(__or__, map(
-                            lambda card: (card >> 16),
-                            filter(
-                                lambda card: (card >> 12) & 0xF == flush_suit, bh)))
+                        bits = reduce(__or__, [(card >> 16) for card in [card for card in bh if (card >> 12) & 0xF == flush_suit]])
                         return LookupTables.Seven.flush_rank_bits_to_rank[bits]
             
             # Odd-even XOR again, see Six.evaluate_rank for details
@@ -299,7 +291,7 @@ class HandEvaluator:
                 if odd_popcount == 7: # 7-0
                     return LookupTables.Seven.odd_xors_to_rank[odd_xor]
                 else: # 5-0, 3-0
-                    prime_product = reduce(mul, map(lambda card: card & 0xFF, bh))
+                    prime_product = reduce(mul, [card & 0xFF for card in bh])
                     return LookupTables.Seven.prime_products_to_rank[prime_product]
             else:
                 odd_popcount = PopCount.popcount(odd_xor)
@@ -310,14 +302,14 @@ class HandEvaluator:
                     if even_popcount == 2: # 3-2
                         return LookupTables.Seven.even_xors_to_odd_xors_to_rank[even_xor][odd_xor]
                     else: # 3-1
-                        prime_product = reduce(mul, map(lambda card: card & 0xFF, bh))
+                        prime_product = reduce(mul, [card & 0xFF for card in bh])
                         return LookupTables.Seven.prime_products_to_rank[prime_product]
                 else:
                     even_popcount = PopCount.popcount(even_xor)
                     if even_popcount == 3: # 1-3
                         return LookupTables.Seven.even_xors_to_odd_xors_to_rank[even_xor][odd_xor]
                     elif even_popcount == 2: # 1-2
-                        prime_product = reduce(mul, map(lambda card: card & 0xFF, bh))
+                        prime_product = reduce(mul, [card & 0xFF for card in bh])
                         return LookupTables.Seven.prime_products_to_rank[prime_product]
                     else: # 1-1
                         return LookupTables.Seven.even_xors_to_odd_xors_to_rank[even_xor][odd_xor]

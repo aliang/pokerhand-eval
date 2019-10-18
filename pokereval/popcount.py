@@ -4,7 +4,7 @@ class PopCount:
     # Reference is some stanford paper. 
     # See http://www.valuedlessons.com/2009/01/popcount-in-python-with-benchmarks.html
     POPCOUNT_TABLE16 = [0] * 2**16
-    for index in xrange(len(POPCOUNT_TABLE16)):
+    for index in range(len(POPCOUNT_TABLE16)):
         POPCOUNT_TABLE16[index] = (index & 1) + POPCOUNT_TABLE16[index >> 1]
 
     def popcount32_table16(v):
