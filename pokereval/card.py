@@ -32,9 +32,10 @@ class Card:
     def __init__(self, rank, suit):
         """Create a card. Rank is 2-14, representing 2-A,
         while suit is 1-4 representing spades, hearts, diamonds, clubs"""
-        self.rank = rank
-        self.suit = suit
-    
+
+        self.rank = rank if isinstance(rank, int) else self.STRING_TO_RANK[rank.upper()]
+        self.suit = suit if isinstance(suit, int) else self.STRING_TO_SUIT[suit]
+
     def __repr__(self):
         return "<Card(%s%s)>" % (self.RANK_TO_STRING[self.rank], self.SUIT_TO_STRING[self.suit])
     
