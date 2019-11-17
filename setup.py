@@ -3,8 +3,8 @@ from distutils.core import setup
 
 setup(
     name='pokereval',
-    version='0.1.2',
-    author='Alvin Liang, Zach Wissner-Gross, arlsr, Jim Kelly, hwmrocker',
+    version='0.2.0',
+    author='Alvin Liang',
     author_email='ayliang@gmail.com',
     packages=['pokereval'],
     url='https://github.com/aliang/pokerhand-eval',
