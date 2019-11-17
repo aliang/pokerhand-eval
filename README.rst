@@ -74,3 +74,4 @@ Contributors
 -  Zach Wissner-Gross (2-card algorithm)
 -  arslr (Fixes for other Python versions)
 -  Jim Kelly (Help with packaging, additional documentation)
+-  hwmrocker (Improvements to Card constructor, Python 3 compatibility)
