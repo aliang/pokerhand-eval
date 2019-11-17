@@ -75,3 +75,4 @@ Contributors
 -  arslr (Fixes for other Python versions)
 -  Jim Kelly (Help with packaging, additional documentation)
 -  hwmrocker (Improvements to Card constructor, Python 3 compatibility)
+-  radekj (Tests, Python 3 compatibility)
