@@ -39,7 +39,7 @@ class Card:
         """
 
         self.rank = rank if isinstance(rank, int) else self.STRING_TO_RANK[rank.upper()]
-        self.suit = suit if isinstance(suit, int) else self.STRING_TO_SUIT[suit]
+        self.suit = suit if isinstance(suit, int) else self.STRING_TO_SUIT[suit.lower()]
 
     def __repr__(self):
         return "<Card(%s%s)>" % (
