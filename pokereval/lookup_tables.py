@@ -1,4 +1,4 @@
-from card import Card
+from .card import Card
 
 class LookupTables:
     """
