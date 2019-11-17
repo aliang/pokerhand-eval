@@ -1,5 +1,8 @@
 import re
 
+class InvalidCardError(ValueError):
+    pass
+
 class Card:
     """Card represents a card in a standard pack of 52 playing cards."""
     SUIT_TO_STRING = {1: "s", 2: "h", 3: "d", 4: "c"}
@@ -37,9 +40,29 @@ class Card:
         If int, 1-4 represent spades, hearts, diamonds, clubs respectively.
         If string, the suits are "s", "h", "d", "c".
         """
+        if isinstance(rank, int):
+            if rank < 2 or rank > 14:
+                raise InvalidCardError("%s is not a valid rank" % rank)
+            self.rank = rank
+        elif isinstance(rank, "".__class__):
+            try:
+                self.rank = self.STRING_TO_RANK[rank.upper()]
+            except KeyError:
+                raise InvalidCardError("'%s' is not a valid rank" % rank)
+        else:
+            raise TypeError("rank must be int or string")
 
-        self.rank = rank if isinstance(rank, int) else self.STRING_TO_RANK[rank.upper()]
-        self.suit = suit if isinstance(suit, int) else self.STRING_TO_SUIT[suit.lower()]
+        if isinstance(suit, int):
+            if suit < 1 or suit > 4:
+                raise InvalidCardError("%s is not a valid suit" % suit)
+            self.suit = suit
+        elif isinstance(suit, "".__class__):
+            try:
+                self.suit = self.STRING_TO_SUIT[suit.lower()]
+            except KeyError:
+                raise InvalidCardError("'%s' is not a valid suit" % suit)
+        else:
+            raise TypeError("suit must be int or string")
 
     def __repr__(self):
         return "<Card(%s%s)>" % (
