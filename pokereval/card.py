@@ -1,7 +1,7 @@
 import re
 
-
 class Card:
+    """Card represents a card in a standard pack of 52 playing cards."""
     SUIT_TO_STRING = {1: "s", 2: "h", 3: "d", 4: "c"}
 
     RANK_TO_STRING = {
@@ -26,8 +26,17 @@ class Card:
     REPR_RE = re.compile(r"\((.*?)\)")
 
     def __init__(self, rank, suit):
-        """Create a card. Rank is 2-14, representing 2-A,
-        while suit is 1-4 representing spades, hearts, diamonds, clubs"""
+        """Create a card.
+
+        Arguments:
+        First argument: An int or string representing the rank.
+        If int, the ranks are 2-14, with 10-14 representing ten through ace.
+        If string, "T", "J", "Q", "K", "A" are ten through ace.
+
+        Second argument: An int or string representing the suit.
+        If int, 1-4 represent spades, hearts, diamonds, clubs respectively.
+        If string, the suits are "s", "h", "d", "c".
+        """
 
         self.rank = rank if isinstance(rank, int) else self.STRING_TO_RANK[rank.upper()]
         self.suit = suit if isinstance(suit, int) else self.STRING_TO_SUIT[suit]
@@ -52,7 +61,8 @@ class Card:
     def from_repr(cls, repr):
         """Return a card instance from repr.
         This is really dirty--it just matches between the parens.
-        It's meant for debugging."""
+        It's meant for debugging.
+        """
         between_parens = re.search(cls.REPR_RE, repr).group(1)
         rank = cls.STRING_TO_RANK[between_parens[0].upper()]
         suit = cls.STRING_TO_SUIT[between_parens[1].lower()]
