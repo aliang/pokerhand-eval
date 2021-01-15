@@ -12,7 +12,7 @@ This is a pure python library to calculate the rank of the best poker
 hand out of 5, 6, or 7 cards. It does not run the board for you, or
 calculate winning percentage, EV, or anything like that. But if you give
 it two hands and the same board, you will be able to tell which hand
-wins.
+has a better chance of winning a showdown against unknown cards.
 
 It is nowhere near as fast as pypoker-eval, but it works if you can't
 use C for some reason (the early stages of the first MIT pokerbot
